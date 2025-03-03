@@ -2,13 +2,23 @@
 @rendermode InteractiveServer
 @inherits ClientBase
 <PageTitle>Counter</PageTitle>
-
+<style>
+    h1.Client {
+        color: red;
+        text-align: center;
+    }
+</style>
 <h1>Counter</h1>
 
 <p role="status">Current Count: @currentCount</p>
 <p role="status">Client Number: @ClientNum</p>
 <p role="status">Connected Clients: @ClientsConnected</p>
 <p role="status">Seconds since startup: @ElapsedSeconds</p>
+
+@foreach (ClientBase client in Clients)
+{
+    <h1 class="Client">@client.ClientName: @client.ClientCount</h1>
+}
 
 <button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
 
@@ -25,6 +35,7 @@
     private void IncrementCount()
     {
         currentCount++;
+        _ClientCount++;
         Update();
 
     }

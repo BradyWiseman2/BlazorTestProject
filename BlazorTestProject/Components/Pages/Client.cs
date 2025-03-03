@@ -9,27 +9,30 @@ namespace BlazorTestProject.Components.Pages
         protected static System.Timers.Timer timer;
         protected static int ElapsedSeconds;
         protected int ClientNum;
+        protected int _ClientCount;
+        protected string _ClientName;       
         protected static int ClientsConnected { get { return Clients.Count(); } }
-
+        public string ClientName { get { return _ClientName; } }
+        public int ClientCount {  get { return _ClientCount; } }
         static ClientBase()
         {
             timer = new System.Timers.Timer();
             timer.Interval = 1000;
             timer.Elapsed += Timer_Elapsed;
-            timer.Start();
+            timer.Start();            
         }
-
+        public ClientBase()
+        {
+            Clients.Add(this);
+            ClientNum = Clients.Count;
+            _ClientName = "Client " + ClientNum;
+        }
         private static void Timer_Elapsed(object? sender, System.Timers.ElapsedEventArgs e)
         {
             ElapsedSeconds++;
             Update();          
         }
-
-        public ClientBase()
-        {
-            Clients.Add(this);
-            ClientNum = Clients.Count;
-        }
+        
         protected static void Update()
         {
             foreach (ClientBase a in Clients)
