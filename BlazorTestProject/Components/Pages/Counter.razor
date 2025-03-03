@@ -1,0 +1,31 @@
+﻿@page "/counter"
+@rendermode InteractiveServer
+@inherits ClientBase
+<PageTitle>Counter</PageTitle>
+
+<h1>Counter</h1>
+
+<p role="status">Current Count: @currentCount</p>
+<p role="status">Client Number: @ClientNum</p>
+<p role="status">Connected Clients: @ClientsConnected</p>
+<p role="status">Seconds since startup: @ElapsedSeconds</p>
+
+<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+
+@code {
+
+    protected override Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            Update();
+        }
+        return base.OnAfterRenderAsync(firstRender);
+    }
+    private void IncrementCount()
+    {
+        currentCount++;
+        Update();
+
+    }
+}
