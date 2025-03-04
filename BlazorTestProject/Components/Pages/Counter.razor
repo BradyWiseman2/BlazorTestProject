@@ -4,23 +4,41 @@
 <PageTitle>Counter</PageTitle>
 <style>
     h1.Client {
-        color: red;
-        text-align: center;
+
+    }
+    div.Players{
+    color: red;      
+    text-align: center;
+    min-height: 400px;
+    max-height: 400px;
     }
 </style>
 <h1>Counter</h1>
 
-<p role="status">Current Count: @currentCount</p>
-<p role="status">Client Number: @ClientNum</p>
-<p role="status">Connected Clients: @ClientsConnected</p>
-<p role="status">Seconds since startup: @ElapsedSeconds</p>
 
-@foreach (ClientBase client in Clients)
-{
-    <h1 class="Client">@client.ClientName: @client.ClientCount</h1>
+<p role="status">Total Count: @currentCount</p>
+<p role="status">Client Name: @ClientName</p>
+<p role="status">Connected Clients: @ClientsConnected</p>
+
+@if(State != MashingGameState.Ended){
+<p class="Countdown">@(3-ElapsedSeconds)</p>
 }
 
+<div class="form-floating mb-3">
+    <InputText type="ClientName" @bind-Value="_ClientName" class="form-control" />    
+</div>
+<div class="Players">
+    @foreach (ClientBase client in SortedClients)
+    {
+        <h1 class="Client">@client.ClientName: @client.ClientCount</h1>
+    }
+</div>
+
+
 <button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+@if(this == Host){
+    <button class="btn btn-primary" @onclick="StartGame">Start Game</button>
+}
 
 @code {
 
@@ -34,9 +52,13 @@
     }
     private void IncrementCount()
     {
-        currentCount++;
-        _ClientCount++;
-        Update();
-
-    }
+        if(State == MashingGameState.Ongoing)
+        {
+            currentCount++;
+            _ClientCount++;
+            Update();
+        }
+        
+    }   
+   
 }
