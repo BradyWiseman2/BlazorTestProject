@@ -14,7 +14,7 @@ namespace BlazorTestProject.Components.Pages
         protected static int currentCount = 0;
         protected static System.Timers.Timer timer;
         protected static int ElapsedSeconds;
-        protected static ClientBase Host { get; set; }
+        protected static ClientBase GameHost { get; set; }
         protected static MashingGameState State { get; set; }
         protected int ClientNum;
         protected int _ClientCount;
@@ -35,7 +35,7 @@ namespace BlazorTestProject.Components.Pages
         {
             if(Clients.Count == 0)
             {
-                Host = this;
+                GameHost = this;
             }
             Clients.Add(this);
             ClientNum = Clients.Count;
@@ -77,9 +77,9 @@ namespace BlazorTestProject.Components.Pages
         void IDisposable.Dispose()
         {
             Clients.Remove(this);
-            if(Host == this && Clients.Count >0)
+            if(GameHost == this && Clients.Count >0)
             {
-                Host = Clients[0];
+                GameHost = Clients[0];
             }
             if (Clients.Count == 0)
             {
