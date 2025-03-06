@@ -12,7 +12,8 @@ namespace BlazorTestProject.Components.Pages
     {
         protected static List<ClientBase> Clients = new List<ClientBase>();
         protected static int currentCount = 0;
-        protected static System.Timers.Timer timer;
+        protected static System.Timers.Timer Secondtimer;
+        protected static System.Timers.Timer Updatetimer;
         protected static int ElapsedSeconds;
         protected static ClientBase GameHost { get; set; }
         protected static MashingGameState State { get; set; }
@@ -25,12 +26,22 @@ namespace BlazorTestProject.Components.Pages
         public List<ClientBase> SortedClients { get { return Clients.OrderBy(o => -o.ClientCount).ToList(); } }
         static ClientBase()
         {
-            timer = new System.Timers.Timer();
-            timer.Interval = 1000;
-            timer.Elapsed += Timer_Elapsed;
-            timer.Start();
+            Secondtimer = new System.Timers.Timer();
+            Secondtimer.Interval = 1000;
+            Secondtimer.Elapsed += Timer_Elapsed;
+            Secondtimer.Start();
+            Updatetimer = new System.Timers.Timer();
+            Updatetimer.Interval = 20;
+            Updatetimer.Elapsed += Updatetimer_Elapsed;
+            Updatetimer.Start();
             State = MashingGameState.Ended;
         }
+
+        private static void Updatetimer_Elapsed(object? sender, System.Timers.ElapsedEventArgs e)
+        {
+            Update();
+        }
+
         public ClientBase()
         {
             if(Clients.Count == 0)
@@ -51,8 +62,7 @@ namespace BlazorTestProject.Components.Pages
             if(State == MashingGameState.Ongoing && ElapsedSeconds == 13)
             {
                 State = MashingGameState.Ended;
-            }
-            Update();          
+            }                   
         }
         protected void StartGame()
         {
@@ -63,8 +73,8 @@ namespace BlazorTestProject.Components.Pages
             }
             State = MashingGameState.Starting;
             ElapsedSeconds = 0;
-            timer.Stop();
-            timer.Start();
+            Secondtimer.Stop();
+            Secondtimer.Start();
             Update();
         }
         protected static void Update()

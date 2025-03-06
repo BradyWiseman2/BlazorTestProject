@@ -6,11 +6,17 @@
     h1.Client {
 
     }
-    div.Players{
-    color: red;      
+    div.Player{
+    vertical-align: top;
+    display: inline-block;
     text-align: center;
-    min-height: 400px;
-    max-height: 400px;
+    font-size: 1em;		
+    width: 24%;	
+    height: 20%;
+    align-items:center;
+    margin-right: auto;
+    margin-left: auto;
+    min-width:250px;	
     }
 </style>
 <h1>Counter</h1>
@@ -30,7 +36,10 @@
 <div class="Players">
     @foreach (ClientBase client in SortedClients)
     {
+        <div class="Player">
+        <img src="Resources/Mashing/Other/Block1.png" class="BlockAnim" alt="Block">
         <h1 class="Client">@client.ClientName: @client.ClientCount</h1>
+        </div>
     }
 </div>
 
