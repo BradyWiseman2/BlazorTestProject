@@ -16,8 +16,12 @@
     align-items:center;
     margin-right: auto;
     margin-left: auto;
-    min-width:250px;	
+    min-width:250px;
     }
+    .BlockAnim{
+        min-block-size:64px;        
+
+    }   
 </style>
 <h1>Counter</h1>
 
@@ -34,10 +38,10 @@
     <InputText type="ClientName" @bind-Value="_ClientName" class="form-control" />    
 </div>
 <div class="Players">
-    @foreach (ClientBase client in SortedClients)
+    @foreach (ClientBase client in Clients)
     {
         <div class="Player">
-        <img src="Resources/Mashing/Other/Block1.png" class="BlockAnim" alt="Block">
+        <img src="@BlockPath" class="BlockAnim" alt="Block">
         <h1 class="Client">@client.ClientName: @client.ClientCount</h1>
         </div>
     }

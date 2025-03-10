@@ -15,6 +15,8 @@ namespace BlazorTestProject.Components.Pages
         protected static System.Timers.Timer Secondtimer;
         protected static System.Timers.Timer Updatetimer;
         protected static int ElapsedSeconds;
+        protected static int BlockAnimation;
+        protected static string BlockPath { get { return $"Resources/Mashing/Other/Block{BlockAnimation/7}.png"; } }
         protected static ClientBase GameHost { get; set; }
         protected static MashingGameState State { get; set; }
         protected int ClientNum;
@@ -24,6 +26,7 @@ namespace BlazorTestProject.Components.Pages
         public string ClientName { get { return _ClientName; } }
         public int ClientCount {  get { return _ClientCount; } }
         public List<ClientBase> SortedClients { get { return Clients.OrderBy(o => -o.ClientCount).ToList(); } }
+        
         static ClientBase()
         {
             Secondtimer = new System.Timers.Timer();
@@ -39,6 +42,14 @@ namespace BlazorTestProject.Components.Pages
 
         private static void Updatetimer_Elapsed(object? sender, System.Timers.ElapsedEventArgs e)
         {
+            if(BlockAnimation != 28)
+            {
+                BlockAnimation++;
+            }
+            else
+            {
+                BlockAnimation = 7;
+            }
             Update();
         }
 
