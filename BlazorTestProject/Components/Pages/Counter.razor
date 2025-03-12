@@ -63,7 +63,7 @@
 
 
 <button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
-@if(this == GameHost){
+@if(this == GameHost && State == MashingGameState.Ended){
     <button class="btn btn-primary" @onclick="StartGame">Start Game</button>
 }
 

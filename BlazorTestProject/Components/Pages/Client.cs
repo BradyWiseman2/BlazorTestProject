@@ -31,7 +31,7 @@ namespace BlazorTestProject.Components.Pages
         public string ClientName { get { return _ClientName; } }
         public string CharacterPath { get { return $"Resources/Mashing/{PlayerDictionary[_PlayerNumber]}/" +
                                                  $"{AnimationDictionary[_AnimationFrame]}"; } }
-        public string JumpHeight { get { return (-(int)(Math.Sin(_AnimationFrame - 1) * 30)).ToString()+"px"; } }
+        public string JumpHeight { get { return (-(int)(Math.Sin(_AnimationFrame - 1) * 15)).ToString()+"px"; } }
         public int ClientCount {  get { return _ClientCount; } }
         public static List<ClientBase> SortedClients { get { return Clients.OrderBy(o => -o.ClientCount).ToList(); } }
         
@@ -122,6 +122,7 @@ namespace BlazorTestProject.Components.Pages
             foreach (ClientBase a in Clients)
             {
                 a._ClientCount = 0;
+                a._AnimationFrame = 0;
             }
             State = MashingGameState.Starting;
             ElapsedSeconds = 0;
