@@ -92,6 +92,10 @@ namespace BlazorTestProject.Components.Pages
         private static void Timer_Elapsed(object? sender, System.Timers.ElapsedEventArgs e)
         {
             ElapsedSeconds++;
+            if (ElapsedSeconds % 10 == 0)
+            {
+                GC.Collect(); //We are not engaging in good memory management practices
+            }
             if (State == MashingGameState.Starting && ElapsedSeconds == 3)
             {
                 State = MashingGameState.Ongoing;
@@ -117,6 +121,17 @@ namespace BlazorTestProject.Components.Pages
                 }
             }
         }
+        protected void IncrementCount()
+        {
+            if (State == MashingGameState.Ongoing)
+            {
+                currentCount++;
+                _ClientCount++;
+                _AnimationFrame = 1;
+                Update();
+
+            }
+        }
         protected void StartGame()
         {
             foreach (ClientBase a in Clients)
@@ -134,14 +149,17 @@ namespace BlazorTestProject.Components.Pages
         {
             for(int i = 0; i < Clients.Count; i++)
             {
-                Clients[i].Tick();
-                Clients[i].InvokeAsync(Clients[i].StateHasChanged);
+                if (Clients[i]!= null)
+                {
+                    Clients[i].Tick();
+                    Clients[i].InvokeAsync(Clients[i].StateHasChanged);
+                }                
             }
         }
         void IDisposable.Dispose()
         {
             Clients.Remove(this);
-            if(GameHost == this && Clients.Count >0)
+            if(GameHost == this && Clients.Count > 0)
             {
                 GameHost = Clients[0];
             }

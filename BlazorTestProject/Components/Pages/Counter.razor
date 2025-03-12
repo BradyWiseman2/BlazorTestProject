@@ -25,6 +25,11 @@
     background-color:azure;
     min-height:300px;
     }
+    .Players{
+        align-items: center;
+        text-align: center;
+        background-color:lightblue;
+    }
     .BlockAnim{
     min-block-size:64px;        
 
@@ -53,11 +58,13 @@
 <div class="Players">
     @for(int i = 0; i < Clients.Count; i++)
     {
-        <div class="Player">
-            <img src="@BlockPath" class="BlockAnim" alt="Block">
-            <img src="@Clients[i].CharacterPath" class="PlayerAnim" alt="Player" style="margin-top:@Clients[i].JumpHeight;">
-            <h1 class="Client">@Clients[i].ClientName: @Clients[i].ClientCount</h1>
-        </div>
+        if(Clients[i]!=null){
+            <div class="Player">
+                <img src="@BlockPath" class="BlockAnim" alt="Block">
+                <img src="@Clients[i].CharacterPath" class="PlayerAnim" alt="Player" style="margin-top:@Clients[i].JumpHeight;">
+                <h1 class="Client">@Clients[i].ClientName: @Clients[i].ClientCount</h1>
+            </div>
+        }       
     }
 </div>
 
@@ -76,18 +83,6 @@
             Update();
         }
         return base.OnAfterRenderAsync(firstRender);
-    }
-    private void IncrementCount()
-    {
-        if(State == MashingGameState.Ongoing)
-        {
-            currentCount++;
-            _ClientCount++;
-            _AnimationFrame = 1;
-            Update();
-
-        }
-        
-    }   
+    }    
    
 }
