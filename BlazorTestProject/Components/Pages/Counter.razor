@@ -3,10 +3,15 @@
 @inherits ClientBase
 <PageTitle>Counter</PageTitle>
 <style>
-    h1.Client {
-
+    .Client {
+        vertical-align:bottom;
+        position:absolute;
+        bottom:0%;
+        margin-right: auto;
+        margin-left: auto;
     }
     div.Player{
+        position:relative;
     vertical-align: top;
     display: inline-block;
     text-align: center;
@@ -17,32 +22,41 @@
     margin-right: auto;
     margin-left: auto;
     min-width:250px;
+    background-color:azure;
+    min-height:300px;
     }
     .BlockAnim{
-        min-block-size:64px;        
+    min-block-size:64px;        
 
     }   
+    .PlayerAnim {
+    min-block-size: 96px;
+    margin-right: 30%;
+    margin-left: 30%;
+    
+    }
 </style>
 <h1>Counter</h1>
 
 
 <p role="status">Total Count: @currentCount</p>
-<p role="status">Client Name: @ClientName</p>
+<p role="status">Jump Height: @JumpHeight</p>
 <p role="status">Connected Clients: @ClientsConnected</p>
 
 @if(State != MashingGameState.Ended){
-<p class="Countdown">@(3-ElapsedSeconds)</p>
+    <p class="Countdown">@(3-ElapsedSeconds)</p>
 }
 
 <div class="form-floating mb-3">
     <InputText type="ClientName" @bind-Value="_ClientName" class="form-control" />    
 </div>
 <div class="Players">
-    @foreach (ClientBase client in Clients)
+    @for(int i = 0; i < Clients.Count; i++)
     {
         <div class="Player">
-        <img src="@BlockPath" class="BlockAnim" alt="Block">
-        <h1 class="Client">@client.ClientName: @client.ClientCount</h1>
+            <img src="@BlockPath" class="BlockAnim" alt="Block">
+            <img src="@Clients[i].CharacterPath" class="PlayerAnim" alt="Player" style="margin-top:@Clients[i].JumpHeight;">
+            <h1 class="Client">@Clients[i].ClientName: @Clients[i].ClientCount</h1>
         </div>
     }
 </div>
@@ -69,7 +83,9 @@
         {
             currentCount++;
             _ClientCount++;
+            _AnimationFrame = 1;
             Update();
+
         }
         
     }   
