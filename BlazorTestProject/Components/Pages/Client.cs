@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
-
+using BlazorAppDataLayer;
+using BlazorAppDataLayer.Models;
 namespace BlazorTestProject.Components.Pages
 {
     public enum MashingGameState
@@ -27,8 +28,9 @@ namespace BlazorTestProject.Components.Pages
         protected int _AnimationFrame;
         protected int _PlayerNumber;
         protected string _ClientName;
+        protected User _User;
         protected static int ClientsConnected { get { return Clients.Count(); } }
-        public string ClientName { get { return _ClientName; } }
+        public string ClientName { get { if (_User != null) return _User.Username; else return ""; } }
         public string CharacterPath { get { return $"Resources/Mashing/{PlayerDictionary[_PlayerNumber]}/" +
                                                  $"{AnimationDictionary[_AnimationFrame]}"; } }
         public string JumpHeight { get { return (-(int)(Math.Sin(_AnimationFrame - 1) * 15)).ToString()+"px"; } }
@@ -144,6 +146,7 @@ namespace BlazorTestProject.Components.Pages
             Secondtimer.Stop();
             Secondtimer.Start();
             Update();
+            
         }
         protected static void Update()
         {
@@ -155,6 +158,11 @@ namespace BlazorTestProject.Components.Pages
                     Clients[i].InvokeAsync(Clients[i].StateHasChanged);
                 }                
             }
+        }
+        protected void FetchUser()
+        {
+            UserRepository a = new UserRepository();
+            _User = a.GetByASPID(_ClientName);
         }
         void IDisposable.Dispose()
         {

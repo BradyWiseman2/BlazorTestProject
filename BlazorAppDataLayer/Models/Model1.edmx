@@ -1,0 +1,465 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="BlazorCasinoAppModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="ChatMessage">
+          <Key>
+            <PropertyRef Name="MessageID" />
+          </Key>
+          <Property Name="MessageID" Type="int" Nullable="false" />
+          <Property Name="ChatroomID" Type="int" />
+          <Property Name="UserID" Type="int" />
+          <Property Name="Timestamp" Type="datetime" />
+          <Property Name="Message" Type="nvarchar" MaxLength="1000" />
+        </EntityType>
+        <EntityType Name="Chatroom">
+          <Key>
+            <PropertyRef Name="ChatroomID" />
+          </Key>
+          <Property Name="ChatroomID" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="GameRounds">
+          <Key>
+            <PropertyRef Name="GameRoundID" />
+          </Key>
+          <Property Name="GameRoundID" Type="int" Nullable="false" />
+          <Property Name="GameID" Type="int" />
+          <Property Name="Wager" Type="int" />
+          <Property Name="TriviaQuestionID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="GameRoundUserResults">
+          <Key>
+            <PropertyRef Name="UserID" />
+            <PropertyRef Name="GameRoundID" />
+          </Key>
+          <Property Name="UserID" Type="int" Nullable="false" />
+          <Property Name="GameRoundID" Type="int" Nullable="false" />
+          <Property Name="TriviaResult" Type="int" Nullable="false" />
+          <Property Name="GameResult" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Games">
+          <Key>
+            <PropertyRef Name="GameID" />
+          </Key>
+          <Property Name="GameID" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="TriviaQuestions">
+          <Key>
+            <PropertyRef Name="TriviaQuestionID" />
+          </Key>
+          <Property Name="TriviaQuestionID" Type="int" Nullable="false" />
+          <Property Name="Difficulty" Type="int" Nullable="false" />
+          <Property Name="CorrectAnswer" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="WrongAnswer1" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="WrongAnswer2" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="WrongAnswer3" Type="nvarchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="int" Nullable="false" />
+          <Property Name="Username" Type="nvarchar" MaxLength="50" />
+          <Property Name="Email" Type="nvarchar" MaxLength="100" />
+          <Property Name="UserImage" Type="varbinary(max)" />
+          <Property Name="Coins" Type="int" />
+          <Property Name="ASPNETID" Type="nvarchar" MaxLength="450" />
+        </EntityType>
+        <Association Name="FK__ChatMessa__Chatr__5165187F">
+          <End Role="Chatroom" Type="Self.Chatroom" Multiplicity="0..1" />
+          <End Role="ChatMessage" Type="Self.ChatMessage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Chatroom">
+              <PropertyRef Name="ChatroomID" />
+            </Principal>
+            <Dependent Role="ChatMessage">
+              <PropertyRef Name="ChatroomID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ChatMessa__UserI__52593CB8">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="ChatMessage" Type="Self.ChatMessage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="ChatMessage">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__GameRound__GameI__4F7CD00D">
+          <End Role="Games" Type="Self.Games" Multiplicity="0..1" />
+          <End Role="GameRounds" Type="Self.GameRounds" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Games">
+              <PropertyRef Name="GameID" />
+            </Principal>
+            <Dependent Role="GameRounds">
+              <PropertyRef Name="GameID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__GameRound__GameR__18EBB532">
+          <End Role="GameRounds" Type="Self.GameRounds" Multiplicity="1" />
+          <End Role="GameRoundUserResults" Type="Self.GameRoundUserResults" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GameRounds">
+              <PropertyRef Name="GameRoundID" />
+            </Principal>
+            <Dependent Role="GameRoundUserResults">
+              <PropertyRef Name="GameRoundID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__GameRound__Trivi__17036CC0">
+          <End Role="TriviaQuestions" Type="Self.TriviaQuestions" Multiplicity="1" />
+          <End Role="GameRounds" Type="Self.GameRounds" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TriviaQuestions">
+              <PropertyRef Name="TriviaQuestionID" />
+            </Principal>
+            <Dependent Role="GameRounds">
+              <PropertyRef Name="TriviaQuestionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__GameRound__UserI__17F790F9">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="GameRoundUserResults" Type="Self.GameRoundUserResults" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="GameRoundUserResults">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="BlazorCasinoAppModelStoreContainer">
+          <EntitySet Name="ChatMessage" EntityType="Self.ChatMessage" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Chatroom" EntityType="Self.Chatroom" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="GameRounds" EntityType="Self.GameRounds" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="GameRoundUserResults" EntityType="Self.GameRoundUserResults" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Games" EntityType="Self.Games" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TriviaQuestions" EntityType="Self.TriviaQuestions" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__ChatMessa__Chatr__5165187F" Association="Self.FK__ChatMessa__Chatr__5165187F">
+            <End Role="Chatroom" EntitySet="Chatroom" />
+            <End Role="ChatMessage" EntitySet="ChatMessage" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ChatMessa__UserI__52593CB8" Association="Self.FK__ChatMessa__UserI__52593CB8">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="ChatMessage" EntitySet="ChatMessage" />
+          </AssociationSet>
+          <AssociationSet Name="FK__GameRound__GameI__4F7CD00D" Association="Self.FK__GameRound__GameI__4F7CD00D">
+            <End Role="Games" EntitySet="Games" />
+            <End Role="GameRounds" EntitySet="GameRounds" />
+          </AssociationSet>
+          <AssociationSet Name="FK__GameRound__GameR__18EBB532" Association="Self.FK__GameRound__GameR__18EBB532">
+            <End Role="GameRounds" EntitySet="GameRounds" />
+            <End Role="GameRoundUserResults" EntitySet="GameRoundUserResults" />
+          </AssociationSet>
+          <AssociationSet Name="FK__GameRound__Trivi__17036CC0" Association="Self.FK__GameRound__Trivi__17036CC0">
+            <End Role="TriviaQuestions" EntitySet="TriviaQuestions" />
+            <End Role="GameRounds" EntitySet="GameRounds" />
+          </AssociationSet>
+          <AssociationSet Name="FK__GameRound__UserI__17F790F9" Association="Self.FK__GameRound__UserI__17F790F9">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="GameRoundUserResults" EntitySet="GameRoundUserResults" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="BlazorCasinoAppModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="ChatMessage">
+          <Key>
+            <PropertyRef Name="MessageID" />
+          </Key>
+          <Property Name="MessageID" Type="Int32" Nullable="false" />
+          <Property Name="ChatroomID" Type="Int32" />
+          <Property Name="UserID" Type="Int32" />
+          <Property Name="Timestamp" Type="DateTime" Precision="3" />
+          <Property Name="Message" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Chatroom" Relationship="Self.FK__ChatMessa__Chatr__5165187F" FromRole="ChatMessage" ToRole="Chatroom" />
+          <NavigationProperty Name="User" Relationship="Self.FK__ChatMessa__UserI__52593CB8" FromRole="ChatMessage" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="Chatroom">
+          <Key>
+            <PropertyRef Name="ChatroomID" />
+          </Key>
+          <Property Name="ChatroomID" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="ChatMessages" Relationship="Self.FK__ChatMessa__Chatr__5165187F" FromRole="Chatroom" ToRole="ChatMessage" />
+        </EntityType>
+        <EntityType Name="GameRound">
+          <Key>
+            <PropertyRef Name="GameRoundID" />
+          </Key>
+          <Property Name="GameRoundID" Type="Int32" Nullable="false" />
+          <Property Name="GameID" Type="Int32" />
+          <Property Name="Wager" Type="Int32" />
+          <Property Name="TriviaQuestionID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Game" Relationship="Self.FK__GameRound__GameI__4F7CD00D" FromRole="GameRounds" ToRole="Games" />
+          <NavigationProperty Name="GameRoundUserResults" Relationship="Self.FK__GameRound__GameR__18EBB532" FromRole="GameRounds" ToRole="GameRoundUserResults" />
+          <NavigationProperty Name="TriviaQuestion" Relationship="Self.FK__GameRound__Trivi__17036CC0" FromRole="GameRounds" ToRole="TriviaQuestions" />
+        </EntityType>
+        <EntityType Name="GameRoundUserResult">
+          <Key>
+            <PropertyRef Name="UserID" />
+            <PropertyRef Name="GameRoundID" />
+          </Key>
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="GameRoundID" Type="Int32" Nullable="false" />
+          <Property Name="TriviaResult" Type="Int32" Nullable="false" />
+          <Property Name="GameResult" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="GameRound" Relationship="Self.FK__GameRound__GameR__18EBB532" FromRole="GameRoundUserResults" ToRole="GameRounds" />
+          <NavigationProperty Name="User" Relationship="Self.FK__GameRound__UserI__17F790F9" FromRole="GameRoundUserResults" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="Game">
+          <Key>
+            <PropertyRef Name="GameID" />
+          </Key>
+          <Property Name="GameID" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="GameRounds" Relationship="Self.FK__GameRound__GameI__4F7CD00D" FromRole="Games" ToRole="GameRounds" />
+        </EntityType>
+        <EntityType Name="TriviaQuestion">
+          <Key>
+            <PropertyRef Name="TriviaQuestionID" />
+          </Key>
+          <Property Name="TriviaQuestionID" Type="Int32" Nullable="false" />
+          <Property Name="Difficulty" Type="Int32" Nullable="false" />
+          <Property Name="CorrectAnswer" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="WrongAnswer1" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="WrongAnswer2" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="WrongAnswer3" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="GameRounds" Relationship="Self.FK__GameRound__Trivi__17036CC0" FromRole="TriviaQuestions" ToRole="GameRounds" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="UserImage" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="Coins" Type="Int32" />
+          <Property Name="ASPNETID" Type="String" MaxLength="450" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="ChatMessages" Relationship="Self.FK__ChatMessa__UserI__52593CB8" FromRole="Users" ToRole="ChatMessage" />
+          <NavigationProperty Name="GameRoundUserResults" Relationship="Self.FK__GameRound__UserI__17F790F9" FromRole="Users" ToRole="GameRoundUserResults" />
+        </EntityType>
+        <Association Name="FK__ChatMessa__Chatr__5165187F">
+          <End Role="Chatroom" Type="Self.Chatroom" Multiplicity="0..1" />
+          <End Role="ChatMessage" Type="Self.ChatMessage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Chatroom">
+              <PropertyRef Name="ChatroomID" />
+            </Principal>
+            <Dependent Role="ChatMessage">
+              <PropertyRef Name="ChatroomID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ChatMessa__UserI__52593CB8">
+          <End Role="Users" Type="Self.User" Multiplicity="0..1" />
+          <End Role="ChatMessage" Type="Self.ChatMessage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="ChatMessage">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__GameRound__GameI__4F7CD00D">
+          <End Role="Games" Type="Self.Game" Multiplicity="0..1" />
+          <End Role="GameRounds" Type="Self.GameRound" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Games">
+              <PropertyRef Name="GameID" />
+            </Principal>
+            <Dependent Role="GameRounds">
+              <PropertyRef Name="GameID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__GameRound__GameR__18EBB532">
+          <End Role="GameRounds" Type="Self.GameRound" Multiplicity="1" />
+          <End Role="GameRoundUserResults" Type="Self.GameRoundUserResult" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GameRounds">
+              <PropertyRef Name="GameRoundID" />
+            </Principal>
+            <Dependent Role="GameRoundUserResults">
+              <PropertyRef Name="GameRoundID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__GameRound__Trivi__17036CC0">
+          <End Role="TriviaQuestions" Type="Self.TriviaQuestion" Multiplicity="1" />
+          <End Role="GameRounds" Type="Self.GameRound" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TriviaQuestions">
+              <PropertyRef Name="TriviaQuestionID" />
+            </Principal>
+            <Dependent Role="GameRounds">
+              <PropertyRef Name="TriviaQuestionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__GameRound__UserI__17F790F9">
+          <End Role="Users" Type="Self.User" Multiplicity="1" />
+          <End Role="GameRoundUserResults" Type="Self.GameRoundUserResult" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="GameRoundUserResults">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="BlazorCasinoAppEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="ChatMessages" EntityType="Self.ChatMessage" />
+          <EntitySet Name="Chatrooms" EntityType="Self.Chatroom" />
+          <EntitySet Name="GameRounds" EntityType="Self.GameRound" />
+          <EntitySet Name="GameRoundUserResults" EntityType="Self.GameRoundUserResult" />
+          <EntitySet Name="Games" EntityType="Self.Game" />
+          <EntitySet Name="TriviaQuestions" EntityType="Self.TriviaQuestion" />
+          <EntitySet Name="Users" EntityType="Self.User" />
+          <AssociationSet Name="FK__ChatMessa__Chatr__5165187F" Association="Self.FK__ChatMessa__Chatr__5165187F">
+            <End Role="Chatroom" EntitySet="Chatrooms" />
+            <End Role="ChatMessage" EntitySet="ChatMessages" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ChatMessa__UserI__52593CB8" Association="Self.FK__ChatMessa__UserI__52593CB8">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="ChatMessage" EntitySet="ChatMessages" />
+          </AssociationSet>
+          <AssociationSet Name="FK__GameRound__GameI__4F7CD00D" Association="Self.FK__GameRound__GameI__4F7CD00D">
+            <End Role="Games" EntitySet="Games" />
+            <End Role="GameRounds" EntitySet="GameRounds" />
+          </AssociationSet>
+          <AssociationSet Name="FK__GameRound__GameR__18EBB532" Association="Self.FK__GameRound__GameR__18EBB532">
+            <End Role="GameRounds" EntitySet="GameRounds" />
+            <End Role="GameRoundUserResults" EntitySet="GameRoundUserResults" />
+          </AssociationSet>
+          <AssociationSet Name="FK__GameRound__Trivi__17036CC0" Association="Self.FK__GameRound__Trivi__17036CC0">
+            <End Role="TriviaQuestions" EntitySet="TriviaQuestions" />
+            <End Role="GameRounds" EntitySet="GameRounds" />
+          </AssociationSet>
+          <AssociationSet Name="FK__GameRound__UserI__17F790F9" Association="Self.FK__GameRound__UserI__17F790F9">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="GameRoundUserResults" EntitySet="GameRoundUserResults" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="BlazorCasinoAppModelStoreContainer" CdmEntityContainer="BlazorCasinoAppEntities">
+          <EntitySetMapping Name="ChatMessages">
+            <EntityTypeMapping TypeName="BlazorCasinoAppModel.ChatMessage">
+              <MappingFragment StoreEntitySet="ChatMessage">
+                <ScalarProperty Name="MessageID" ColumnName="MessageID" />
+                <ScalarProperty Name="ChatroomID" ColumnName="ChatroomID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="Timestamp" ColumnName="Timestamp" />
+                <ScalarProperty Name="Message" ColumnName="Message" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Chatrooms">
+            <EntityTypeMapping TypeName="BlazorCasinoAppModel.Chatroom">
+              <MappingFragment StoreEntitySet="Chatroom">
+                <ScalarProperty Name="ChatroomID" ColumnName="ChatroomID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GameRounds">
+            <EntityTypeMapping TypeName="BlazorCasinoAppModel.GameRound">
+              <MappingFragment StoreEntitySet="GameRounds">
+                <ScalarProperty Name="GameRoundID" ColumnName="GameRoundID" />
+                <ScalarProperty Name="GameID" ColumnName="GameID" />
+                <ScalarProperty Name="Wager" ColumnName="Wager" />
+                <ScalarProperty Name="TriviaQuestionID" ColumnName="TriviaQuestionID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GameRoundUserResults">
+            <EntityTypeMapping TypeName="BlazorCasinoAppModel.GameRoundUserResult">
+              <MappingFragment StoreEntitySet="GameRoundUserResults">
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="GameRoundID" ColumnName="GameRoundID" />
+                <ScalarProperty Name="TriviaResult" ColumnName="TriviaResult" />
+                <ScalarProperty Name="GameResult" ColumnName="GameResult" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Games">
+            <EntityTypeMapping TypeName="BlazorCasinoAppModel.Game">
+              <MappingFragment StoreEntitySet="Games">
+                <ScalarProperty Name="GameID" ColumnName="GameID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TriviaQuestions">
+            <EntityTypeMapping TypeName="BlazorCasinoAppModel.TriviaQuestion">
+              <MappingFragment StoreEntitySet="TriviaQuestions">
+                <ScalarProperty Name="TriviaQuestionID" ColumnName="TriviaQuestionID" />
+                <ScalarProperty Name="Difficulty" ColumnName="Difficulty" />
+                <ScalarProperty Name="CorrectAnswer" ColumnName="CorrectAnswer" />
+                <ScalarProperty Name="WrongAnswer1" ColumnName="WrongAnswer1" />
+                <ScalarProperty Name="WrongAnswer2" ColumnName="WrongAnswer2" />
+                <ScalarProperty Name="WrongAnswer3" ColumnName="WrongAnswer3" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="BlazorCasinoAppModel.User">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="UserImage" ColumnName="UserImage" />
+                <ScalarProperty Name="Coins" ColumnName="Coins" />
+                <ScalarProperty Name="ASPNETID" ColumnName="ASPNETID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

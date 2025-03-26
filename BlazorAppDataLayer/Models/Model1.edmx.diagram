@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="8a8ac07212a34efaaa2e3c2d291f99b4" Name="Diagram1">
+        <EntityTypeShape EntityType="BlazorCasinoAppModel.ChatMessage" Width="1.5" PointX="5.25" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="BlazorCasinoAppModel.Chatroom" Width="1.5" PointX="3" PointY="8.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="BlazorCasinoAppModel.GameRound" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="BlazorCasinoAppModel.GameRoundUserResult" Width="1.5" PointX="5.25" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="BlazorCasinoAppModel.Game" Width="1.5" PointX="0.75" PointY="1.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="BlazorCasinoAppModel.TriviaQuestion" Width="1.5" PointX="0.75" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="BlazorCasinoAppModel.User" Width="1.5" PointX="3" PointY="4.875" IsExpanded="true" />
+        <AssociationConnector Association="BlazorCasinoAppModel.FK__ChatMessa__Chatr__5165187F" ManuallyRouted="false" />
+        <AssociationConnector Association="BlazorCasinoAppModel.FK__ChatMessa__UserI__52593CB8" ManuallyRouted="false" />
+        <AssociationConnector Association="BlazorCasinoAppModel.FK__GameRound__GameI__4F7CD00D" ManuallyRouted="false" />
+        <AssociationConnector Association="BlazorCasinoAppModel.FK__GameRound__GameR__18EBB532" ManuallyRouted="false" />
+        <AssociationConnector Association="BlazorCasinoAppModel.FK__GameRound__Trivi__17036CC0" ManuallyRouted="false" />
+        <AssociationConnector Association="BlazorCasinoAppModel.FK__GameRound__UserI__17F790F9" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

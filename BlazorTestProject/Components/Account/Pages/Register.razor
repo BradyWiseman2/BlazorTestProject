@@ -6,6 +6,7 @@
 @using Microsoft.AspNetCore.Identity
 @using Microsoft.AspNetCore.WebUtilities
 @using BlazorTestProject.Data
+@using BlazorAppDataLayer
 
 @inject UserManager<ApplicationUser> UserManager
 @inject IUserStore<ApplicationUser> UserStore
@@ -31,6 +32,11 @@
                 <InputText @bind-Value="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
                 <label for="email">Email</label>
                 <ValidationMessage For="() => Input.Email" class="text-danger" />
+            </div>
+            <div class="form-floating mb-3">
+                <InputText @bind-Value="Input.UserName" class="form-control" autocomplete="username" aria-required="true" placeholder="Bobson" />
+                <label for="username">Username</label>
+                <ValidationMessage For="() => Input.UserName" class="text-danger" />
             </div>
             <div class="form-floating mb-3">
                 <InputText type="password" @bind-Value="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
@@ -66,7 +72,8 @@
     private string? Message => identityErrors is null ? null : $"Error: {string.Join(", ", identityErrors.Select(error => error.Description))}";
 
     public async Task RegisterUser(EditContext editContext)
-    {
+    {      
+
         var user = CreateUser();
 
         await UserStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
@@ -90,6 +97,14 @@
             new Dictionary<string, object?> { ["userId"] = userId, ["code"] = code, ["returnUrl"] = ReturnUrl });
 
         await EmailSender.SendConfirmationLinkAsync(user, Input.Email, HtmlEncoder.Default.Encode(callbackUrl));
+
+        UserRepository a = new UserRepository();
+        BlazorAppDataLayer.Models.User b = new BlazorAppDataLayer.Models.User();
+        b.ASPNETID = userId;
+        b.Email = Input.Email;
+        b.Coins = 0;
+        b.Username = Input.UserName;
+        a.Add(b);
 
         if (UserManager.Options.SignIn.RequireConfirmedAccount)
         {
@@ -141,5 +156,7 @@
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; } = "";
+        [Required]
+        public string UserName { get; set; }
     }
 }
