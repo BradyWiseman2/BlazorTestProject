@@ -58,6 +58,7 @@
           <Property Name="WrongAnswer1" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="WrongAnswer2" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="WrongAnswer3" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="Question" Type="nvarchar" MaxLength="256" />
         </EntityType>
         <EntityType Name="Users">
           <Key>
@@ -70,7 +71,7 @@
           <Property Name="Coins" Type="int" />
           <Property Name="ASPNETID" Type="nvarchar" MaxLength="450" />
         </EntityType>
-        <Association Name="FK__ChatMessa__Chatr__5165187F">
+        <Association Name="FK__ChatMessa__Chatr__4316F928">
           <End Role="Chatroom" Type="Self.Chatroom" Multiplicity="0..1" />
           <End Role="ChatMessage" Type="Self.ChatMessage" Multiplicity="*" />
           <ReferentialConstraint>
@@ -82,7 +83,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__ChatMessa__UserI__52593CB8">
+        <Association Name="FK__ChatMessa__UserI__440B1D61">
           <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
           <End Role="ChatMessage" Type="Self.ChatMessage" Multiplicity="*" />
           <ReferentialConstraint>
@@ -94,7 +95,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__GameRound__GameI__4F7CD00D">
+        <Association Name="FK__GameRound__GameI__44FF419A">
           <End Role="Games" Type="Self.Games" Multiplicity="0..1" />
           <End Role="GameRounds" Type="Self.GameRounds" Multiplicity="*" />
           <ReferentialConstraint>
@@ -106,7 +107,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__GameRound__GameR__18EBB532">
+        <Association Name="FK__GameRound__GameR__46E78A0C">
           <End Role="GameRounds" Type="Self.GameRounds" Multiplicity="1" />
           <End Role="GameRoundUserResults" Type="Self.GameRoundUserResults" Multiplicity="*" />
           <ReferentialConstraint>
@@ -118,7 +119,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__GameRound__Trivi__17036CC0">
+        <Association Name="FK__GameRound__Trivi__45F365D3">
           <End Role="TriviaQuestions" Type="Self.TriviaQuestions" Multiplicity="1" />
           <End Role="GameRounds" Type="Self.GameRounds" Multiplicity="*" />
           <ReferentialConstraint>
@@ -130,7 +131,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__GameRound__UserI__17F790F9">
+        <Association Name="FK__GameRound__UserI__47DBAE45">
           <End Role="Users" Type="Self.Users" Multiplicity="1" />
           <End Role="GameRoundUserResults" Type="Self.GameRoundUserResults" Multiplicity="*" />
           <ReferentialConstraint>
@@ -150,27 +151,27 @@
           <EntitySet Name="Games" EntityType="Self.Games" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TriviaQuestions" EntityType="Self.TriviaQuestions" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK__ChatMessa__Chatr__5165187F" Association="Self.FK__ChatMessa__Chatr__5165187F">
+          <AssociationSet Name="FK__ChatMessa__Chatr__4316F928" Association="Self.FK__ChatMessa__Chatr__4316F928">
             <End Role="Chatroom" EntitySet="Chatroom" />
             <End Role="ChatMessage" EntitySet="ChatMessage" />
           </AssociationSet>
-          <AssociationSet Name="FK__ChatMessa__UserI__52593CB8" Association="Self.FK__ChatMessa__UserI__52593CB8">
+          <AssociationSet Name="FK__ChatMessa__UserI__440B1D61" Association="Self.FK__ChatMessa__UserI__440B1D61">
             <End Role="Users" EntitySet="Users" />
             <End Role="ChatMessage" EntitySet="ChatMessage" />
           </AssociationSet>
-          <AssociationSet Name="FK__GameRound__GameI__4F7CD00D" Association="Self.FK__GameRound__GameI__4F7CD00D">
+          <AssociationSet Name="FK__GameRound__GameI__44FF419A" Association="Self.FK__GameRound__GameI__44FF419A">
             <End Role="Games" EntitySet="Games" />
             <End Role="GameRounds" EntitySet="GameRounds" />
           </AssociationSet>
-          <AssociationSet Name="FK__GameRound__GameR__18EBB532" Association="Self.FK__GameRound__GameR__18EBB532">
+          <AssociationSet Name="FK__GameRound__GameR__46E78A0C" Association="Self.FK__GameRound__GameR__46E78A0C">
             <End Role="GameRounds" EntitySet="GameRounds" />
             <End Role="GameRoundUserResults" EntitySet="GameRoundUserResults" />
           </AssociationSet>
-          <AssociationSet Name="FK__GameRound__Trivi__17036CC0" Association="Self.FK__GameRound__Trivi__17036CC0">
+          <AssociationSet Name="FK__GameRound__Trivi__45F365D3" Association="Self.FK__GameRound__Trivi__45F365D3">
             <End Role="TriviaQuestions" EntitySet="TriviaQuestions" />
             <End Role="GameRounds" EntitySet="GameRounds" />
           </AssociationSet>
-          <AssociationSet Name="FK__GameRound__UserI__17F790F9" Association="Self.FK__GameRound__UserI__17F790F9">
+          <AssociationSet Name="FK__GameRound__UserI__47DBAE45" Association="Self.FK__GameRound__UserI__47DBAE45">
             <End Role="Users" EntitySet="Users" />
             <End Role="GameRoundUserResults" EntitySet="GameRoundUserResults" />
           </AssociationSet>
@@ -189,8 +190,8 @@
           <Property Name="UserID" Type="Int32" />
           <Property Name="Timestamp" Type="DateTime" Precision="3" />
           <Property Name="Message" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Chatroom" Relationship="Self.FK__ChatMessa__Chatr__5165187F" FromRole="ChatMessage" ToRole="Chatroom" />
-          <NavigationProperty Name="User" Relationship="Self.FK__ChatMessa__UserI__52593CB8" FromRole="ChatMessage" ToRole="Users" />
+          <NavigationProperty Name="Chatroom" Relationship="Self.FK__ChatMessa__Chatr__4316F928" FromRole="ChatMessage" ToRole="Chatroom" />
+          <NavigationProperty Name="User" Relationship="Self.FK__ChatMessa__UserI__440B1D61" FromRole="ChatMessage" ToRole="Users" />
         </EntityType>
         <EntityType Name="Chatroom">
           <Key>
@@ -198,7 +199,7 @@
           </Key>
           <Property Name="ChatroomID" Type="Int32" Nullable="false" />
           <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="ChatMessages" Relationship="Self.FK__ChatMessa__Chatr__5165187F" FromRole="Chatroom" ToRole="ChatMessage" />
+          <NavigationProperty Name="ChatMessages" Relationship="Self.FK__ChatMessa__Chatr__4316F928" FromRole="Chatroom" ToRole="ChatMessage" />
         </EntityType>
         <EntityType Name="GameRound">
           <Key>
@@ -208,9 +209,9 @@
           <Property Name="GameID" Type="Int32" />
           <Property Name="Wager" Type="Int32" />
           <Property Name="TriviaQuestionID" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Game" Relationship="Self.FK__GameRound__GameI__4F7CD00D" FromRole="GameRounds" ToRole="Games" />
-          <NavigationProperty Name="GameRoundUserResults" Relationship="Self.FK__GameRound__GameR__18EBB532" FromRole="GameRounds" ToRole="GameRoundUserResults" />
-          <NavigationProperty Name="TriviaQuestion" Relationship="Self.FK__GameRound__Trivi__17036CC0" FromRole="GameRounds" ToRole="TriviaQuestions" />
+          <NavigationProperty Name="Game" Relationship="Self.FK__GameRound__GameI__44FF419A" FromRole="GameRounds" ToRole="Games" />
+          <NavigationProperty Name="GameRoundUserResults" Relationship="Self.FK__GameRound__GameR__46E78A0C" FromRole="GameRounds" ToRole="GameRoundUserResults" />
+          <NavigationProperty Name="TriviaQuestion" Relationship="Self.FK__GameRound__Trivi__45F365D3" FromRole="GameRounds" ToRole="TriviaQuestions" />
         </EntityType>
         <EntityType Name="GameRoundUserResult">
           <Key>
@@ -221,8 +222,8 @@
           <Property Name="GameRoundID" Type="Int32" Nullable="false" />
           <Property Name="TriviaResult" Type="Int32" Nullable="false" />
           <Property Name="GameResult" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="GameRound" Relationship="Self.FK__GameRound__GameR__18EBB532" FromRole="GameRoundUserResults" ToRole="GameRounds" />
-          <NavigationProperty Name="User" Relationship="Self.FK__GameRound__UserI__17F790F9" FromRole="GameRoundUserResults" ToRole="Users" />
+          <NavigationProperty Name="GameRound" Relationship="Self.FK__GameRound__GameR__46E78A0C" FromRole="GameRoundUserResults" ToRole="GameRounds" />
+          <NavigationProperty Name="User" Relationship="Self.FK__GameRound__UserI__47DBAE45" FromRole="GameRoundUserResults" ToRole="Users" />
         </EntityType>
         <EntityType Name="Game">
           <Key>
@@ -230,7 +231,7 @@
           </Key>
           <Property Name="GameID" Type="Int32" Nullable="false" />
           <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="GameRounds" Relationship="Self.FK__GameRound__GameI__4F7CD00D" FromRole="Games" ToRole="GameRounds" />
+          <NavigationProperty Name="GameRounds" Relationship="Self.FK__GameRound__GameI__44FF419A" FromRole="Games" ToRole="GameRounds" />
         </EntityType>
         <EntityType Name="TriviaQuestion">
           <Key>
@@ -242,7 +243,8 @@
           <Property Name="WrongAnswer1" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="WrongAnswer2" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="WrongAnswer3" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="GameRounds" Relationship="Self.FK__GameRound__Trivi__17036CC0" FromRole="TriviaQuestions" ToRole="GameRounds" />
+          <Property Name="Question" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="GameRounds" Relationship="Self.FK__GameRound__Trivi__45F365D3" FromRole="TriviaQuestions" ToRole="GameRounds" />
         </EntityType>
         <EntityType Name="User">
           <Key>
@@ -254,10 +256,10 @@
           <Property Name="UserImage" Type="Binary" MaxLength="Max" FixedLength="false" />
           <Property Name="Coins" Type="Int32" />
           <Property Name="ASPNETID" Type="String" MaxLength="450" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="ChatMessages" Relationship="Self.FK__ChatMessa__UserI__52593CB8" FromRole="Users" ToRole="ChatMessage" />
-          <NavigationProperty Name="GameRoundUserResults" Relationship="Self.FK__GameRound__UserI__17F790F9" FromRole="Users" ToRole="GameRoundUserResults" />
+          <NavigationProperty Name="ChatMessages" Relationship="Self.FK__ChatMessa__UserI__440B1D61" FromRole="Users" ToRole="ChatMessage" />
+          <NavigationProperty Name="GameRoundUserResults" Relationship="Self.FK__GameRound__UserI__47DBAE45" FromRole="Users" ToRole="GameRoundUserResults" />
         </EntityType>
-        <Association Name="FK__ChatMessa__Chatr__5165187F">
+        <Association Name="FK__ChatMessa__Chatr__4316F928">
           <End Role="Chatroom" Type="Self.Chatroom" Multiplicity="0..1" />
           <End Role="ChatMessage" Type="Self.ChatMessage" Multiplicity="*" />
           <ReferentialConstraint>
@@ -269,7 +271,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__ChatMessa__UserI__52593CB8">
+        <Association Name="FK__ChatMessa__UserI__440B1D61">
           <End Role="Users" Type="Self.User" Multiplicity="0..1" />
           <End Role="ChatMessage" Type="Self.ChatMessage" Multiplicity="*" />
           <ReferentialConstraint>
@@ -281,7 +283,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__GameRound__GameI__4F7CD00D">
+        <Association Name="FK__GameRound__GameI__44FF419A">
           <End Role="Games" Type="Self.Game" Multiplicity="0..1" />
           <End Role="GameRounds" Type="Self.GameRound" Multiplicity="*" />
           <ReferentialConstraint>
@@ -293,7 +295,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__GameRound__GameR__18EBB532">
+        <Association Name="FK__GameRound__GameR__46E78A0C">
           <End Role="GameRounds" Type="Self.GameRound" Multiplicity="1" />
           <End Role="GameRoundUserResults" Type="Self.GameRoundUserResult" Multiplicity="*" />
           <ReferentialConstraint>
@@ -305,7 +307,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__GameRound__Trivi__17036CC0">
+        <Association Name="FK__GameRound__Trivi__45F365D3">
           <End Role="TriviaQuestions" Type="Self.TriviaQuestion" Multiplicity="1" />
           <End Role="GameRounds" Type="Self.GameRound" Multiplicity="*" />
           <ReferentialConstraint>
@@ -317,7 +319,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__GameRound__UserI__17F790F9">
+        <Association Name="FK__GameRound__UserI__47DBAE45">
           <End Role="Users" Type="Self.User" Multiplicity="1" />
           <End Role="GameRoundUserResults" Type="Self.GameRoundUserResult" Multiplicity="*" />
           <ReferentialConstraint>
@@ -337,27 +339,27 @@
           <EntitySet Name="Games" EntityType="Self.Game" />
           <EntitySet Name="TriviaQuestions" EntityType="Self.TriviaQuestion" />
           <EntitySet Name="Users" EntityType="Self.User" />
-          <AssociationSet Name="FK__ChatMessa__Chatr__5165187F" Association="Self.FK__ChatMessa__Chatr__5165187F">
+          <AssociationSet Name="FK__ChatMessa__Chatr__4316F928" Association="Self.FK__ChatMessa__Chatr__4316F928">
             <End Role="Chatroom" EntitySet="Chatrooms" />
             <End Role="ChatMessage" EntitySet="ChatMessages" />
           </AssociationSet>
-          <AssociationSet Name="FK__ChatMessa__UserI__52593CB8" Association="Self.FK__ChatMessa__UserI__52593CB8">
+          <AssociationSet Name="FK__ChatMessa__UserI__440B1D61" Association="Self.FK__ChatMessa__UserI__440B1D61">
             <End Role="Users" EntitySet="Users" />
             <End Role="ChatMessage" EntitySet="ChatMessages" />
           </AssociationSet>
-          <AssociationSet Name="FK__GameRound__GameI__4F7CD00D" Association="Self.FK__GameRound__GameI__4F7CD00D">
+          <AssociationSet Name="FK__GameRound__GameI__44FF419A" Association="Self.FK__GameRound__GameI__44FF419A">
             <End Role="Games" EntitySet="Games" />
             <End Role="GameRounds" EntitySet="GameRounds" />
           </AssociationSet>
-          <AssociationSet Name="FK__GameRound__GameR__18EBB532" Association="Self.FK__GameRound__GameR__18EBB532">
+          <AssociationSet Name="FK__GameRound__GameR__46E78A0C" Association="Self.FK__GameRound__GameR__46E78A0C">
             <End Role="GameRounds" EntitySet="GameRounds" />
             <End Role="GameRoundUserResults" EntitySet="GameRoundUserResults" />
           </AssociationSet>
-          <AssociationSet Name="FK__GameRound__Trivi__17036CC0" Association="Self.FK__GameRound__Trivi__17036CC0">
+          <AssociationSet Name="FK__GameRound__Trivi__45F365D3" Association="Self.FK__GameRound__Trivi__45F365D3">
             <End Role="TriviaQuestions" EntitySet="TriviaQuestions" />
             <End Role="GameRounds" EntitySet="GameRounds" />
           </AssociationSet>
-          <AssociationSet Name="FK__GameRound__UserI__17F790F9" Association="Self.FK__GameRound__UserI__17F790F9">
+          <AssociationSet Name="FK__GameRound__UserI__47DBAE45" Association="Self.FK__GameRound__UserI__47DBAE45">
             <End Role="Users" EntitySet="Users" />
             <End Role="GameRoundUserResults" EntitySet="GameRoundUserResults" />
           </AssociationSet>
@@ -424,6 +426,7 @@
                 <ScalarProperty Name="WrongAnswer1" ColumnName="WrongAnswer1" />
                 <ScalarProperty Name="WrongAnswer2" ColumnName="WrongAnswer2" />
                 <ScalarProperty Name="WrongAnswer3" ColumnName="WrongAnswer3" />
+                <ScalarProperty Name="Question" ColumnName="Question" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

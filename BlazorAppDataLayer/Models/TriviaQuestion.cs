@@ -26,6 +26,7 @@ namespace BlazorAppDataLayer.Models
         public string WrongAnswer1 { get; set; }
         public string WrongAnswer2 { get; set; }
         public string WrongAnswer3 { get; set; }
+        public string Question { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<GameRound> GameRounds { get; set; }

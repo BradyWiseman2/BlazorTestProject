@@ -80,7 +80,7 @@
 }
 
 @code {
-    protected async override Task OnInitializedAsync() //A little bit of Stack Overflow code
+    protected async override Task OnInitializedAsync() //A little bit of Stack Overflow code to fetch the ID from the aspnet code
     {
         var authstate = await GetAuthenticationStateAsync.GetAuthenticationStateAsync();
         var user = authstate.User;
