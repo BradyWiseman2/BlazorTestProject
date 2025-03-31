@@ -1,12 +1,10 @@
-﻿@page "/counter"
-@rendermode InteractiveServer
+﻿
 @inherits ClientBase
 @using Microsoft.AspNetCore.Identity
 @using BlazorTestProject.Data
 @using Microsoft.AspNetCore.Authorization
 @inject AuthenticationStateProvider GetAuthenticationStateAsync
 @inject UserManager<ApplicationUser> UserManager
-@attribute [Authorize]
 <PageTitle>Counter</PageTitle>
 <style>
     .Client {

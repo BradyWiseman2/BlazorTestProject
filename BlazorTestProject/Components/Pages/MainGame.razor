@@ -1,0 +1,13 @@
+﻿@page "/MainGame"
+@rendermode InteractiveServer
+@using Microsoft.AspNetCore.Identity
+@using BlazorTestProject.Data
+@using Microsoft.AspNetCore.Authorization
+@inject AuthenticationStateProvider GetAuthenticationStateAsync
+@inject UserManager<ApplicationUser> UserManager
+@attribute [Authorize]
+<h3>Component</h3>
+<Counter></Counter>
+@code {
+
+}

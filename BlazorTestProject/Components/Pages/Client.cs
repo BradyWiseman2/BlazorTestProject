@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
 using BlazorAppDataLayer;
 using BlazorAppDataLayer.Models;
+using BlazorAppDataLayer.Repositories;
 namespace BlazorTestProject.Components.Pages
 {
     public enum MashingGameState
@@ -155,7 +156,7 @@ namespace BlazorTestProject.Components.Pages
                 if (Clients[i]!= null)
                 {
                     Clients[i].Tick();
-                    Clients[i].InvokeAsync(Clients[i].StateHasChanged);
+                    Clients[i].InvokeAsync(Clients[i].StateHasChanged);                   
                 }                
             }
         }
