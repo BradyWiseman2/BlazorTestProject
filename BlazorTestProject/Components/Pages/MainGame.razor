@@ -1,13 +1,53 @@
 ﻿@page "/MainGame"
+@inherits MainGameBase
 @rendermode InteractiveServer
 @using Microsoft.AspNetCore.Identity
 @using BlazorTestProject.Data
+@using BlazorTestProject.Components.Pages.PageBases
 @using Microsoft.AspNetCore.Authorization
 @inject AuthenticationStateProvider GetAuthenticationStateAsync
 @inject UserManager<ApplicationUser> UserManager
 @attribute [Authorize]
-<h3>Component</h3>
-<Counter></Counter>
-@code {
+<style>
+    body{
+        background-image: url('Resources/General/GhostBackground.png')
+    }
+    .AnimatedCharacter{
+        width: 32px;
+        height: 32px;
+        overflow: hidden;
+    }
+    .Player{
+        margin-left:-32px;
+    }
+</style>
+<body>
+    <div class="AnimatedCharacter"><img src="Resources/General/Toads/Red.png" class="Player" alt="Player1"></div>   
+</body>
+@switch (ActiveGameCode)
+{
+    case GamesList.Mashing:
+        <Counter @ref=ActiveGame></Counter>
+        break;
+    case GamesList.Trivia:
+        <TriviaGame @ref=ActiveGame></TriviaGame>
+        break;
+}
 
+@code {
+    protected async override Task OnInitializedAsync() //A little bit of Stack Overflow code to fetch the ID from the aspnet code
+    {
+        var authstate = await GetAuthenticationStateAsync.GetAuthenticationStateAsync();
+        var user = authstate.User;
+        var bruh = UserManager.GetUserId(user);
+        UserName = bruh;
+    }
+    protected override Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            FetchUser();
+        }
+        return base.OnAfterRenderAsync(firstRender);
+    }
 }

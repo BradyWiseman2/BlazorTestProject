@@ -2,6 +2,7 @@
 using BlazorAppDataLayer;
 using BlazorAppDataLayer.Models;
 using BlazorAppDataLayer.Repositories;
+using BlazorTestProject.Components.Pages.PageBases;
 namespace BlazorTestProject.Components.Pages
 {
     public enum MashingGameState
@@ -11,13 +12,15 @@ namespace BlazorTestProject.Components.Pages
         Ended
     }
     
-    public class ClientBase : ComponentBase, IDisposable
+    public class ClientBase : SubGameBase, IDisposable
     {
         protected static List<ClientBase> Clients = new List<ClientBase>();
+        protected static List<MainGameBase> mainGameBases = MainGameBase.UsersList;
         protected static int currentCount = 0;
         protected static System.Timers.Timer Secondtimer;
         protected static System.Timers.Timer Updatetimer;
         protected static int ElapsedSeconds;
+        protected static int ElapsedMs;
         protected static int BlockAnimation;
         protected static string BlockPath { get { return $"Resources/Mashing/Other/Block{BlockAnimation/6}.png"; } }       
         protected static ClientBase GameHost { get; set; }
@@ -29,9 +32,9 @@ namespace BlazorTestProject.Components.Pages
         protected int _AnimationFrame;
         protected int _PlayerNumber;
         protected string _ClientName;
-        protected User _User;
+        public MainGameBase _User {  get; set; }
         protected static int ClientsConnected { get { return Clients.Count(); } }
-        public string ClientName { get { if (_User != null) return _User.Username; else return ""; } }
+        public string ClientName { get { if (_User != null) return _User.UserName; else return ""; } }
         public string CharacterPath { get { return $"Resources/Mashing/{PlayerDictionary[_PlayerNumber]}/" +
                                                  $"{AnimationDictionary[_AnimationFrame]}"; } }
         public string JumpHeight { get { return (-(int)(Math.Sin(_AnimationFrame - 1) * 15)).ToString()+"px"; } }
@@ -40,14 +43,14 @@ namespace BlazorTestProject.Components.Pages
         
         static ClientBase()
         {
-            Secondtimer = new System.Timers.Timer();
-            Secondtimer.Interval = 1000;
-            Secondtimer.Elapsed += Timer_Elapsed;
-            Secondtimer.Start();
-            Updatetimer = new System.Timers.Timer();
-            Updatetimer.Interval = 20;
-            Updatetimer.Elapsed += Updatetimer_Elapsed;
-            Updatetimer.Start();
+            //Secondtimer = new System.Timers.Timer();
+            //Secondtimer.Interval = 1000;
+            //Secondtimer.Elapsed += Timer_Elapsed;
+            //Secondtimer.Start();
+            //Updatetimer = new System.Timers.Timer();
+            //Updatetimer.Interval = 20;
+            //Updatetimer.Elapsed += Updatetimer_Elapsed;
+            //Updatetimer.Start();
             State = MashingGameState.Ended;
             
             AnimationDictionary = new Dictionary<int, string>();
@@ -66,10 +69,10 @@ namespace BlazorTestProject.Components.Pages
 
             
         }
-
-        private static void Updatetimer_Elapsed(object? sender, System.Timers.ElapsedEventArgs e)
+    
+        public override void UpdateGame(int elapsedTime)
         {
-            if(BlockAnimation != 24)
+            if (BlockAnimation != 24)
             {
                 BlockAnimation++;
             }
@@ -77,9 +80,43 @@ namespace BlazorTestProject.Components.Pages
             {
                 BlockAnimation = 6;
             }
-            Update();
+            
         }
-
+        public override void UpdateGameStatic(int elapsedTime)
+        {
+            ElapsedMs += elapsedTime;
+            if (ElapsedMs >= 1000)
+            {
+                ElapsedSeconds++;
+                ElapsedMs = 0;
+                if (ElapsedSeconds % 10 == 0)
+                {
+                    GC.Collect(); //We are not engaging in good memory management practices
+                }
+                if (State == MashingGameState.Starting && ElapsedSeconds == 3)
+                {
+                    State = MashingGameState.Ongoing;
+                }
+                if (State == MashingGameState.Ongoing && ElapsedSeconds == 13)
+                {
+                    State = MashingGameState.Ended;
+                    for (int i = 0; i < Clients.Count; i++)
+                    {
+                        Clients[i]._AnimationFrame = 0;
+                    }
+                    SortedClients[0]._AnimationFrame = 5;
+                }
+            }
+            if (_AnimationFrame != 0 && State == MashingGameState.Ongoing)
+            {
+                _AnimationFrame++;
+                if (_AnimationFrame == 5)
+                {
+                    _AnimationFrame = 0;
+                }
+            }
+            Update();
+        }       
         public ClientBase()
         {
            
@@ -91,48 +128,14 @@ namespace BlazorTestProject.Components.Pages
             ClientNum = Clients.Count;
             _ClientName = "Client " + ClientNum;
             _PlayerNumber = ((ClientNum-1) % 4)+1;
-        }
-        private static void Timer_Elapsed(object? sender, System.Timers.ElapsedEventArgs e)
-        {
-            ElapsedSeconds++;
-            if (ElapsedSeconds % 10 == 0)
-            {
-                GC.Collect(); //We are not engaging in good memory management practices
-            }
-            if (State == MashingGameState.Starting && ElapsedSeconds == 3)
-            {
-                State = MashingGameState.Ongoing;
-            }
-            if(State == MashingGameState.Ongoing && ElapsedSeconds == 13)
-            {
-                State = MashingGameState.Ended;
-                for (int i = 0; i < Clients.Count; i++)
-                {
-                    Clients[i]._AnimationFrame = 0;
-                }
-                SortedClients[0]._AnimationFrame = 5;
-            }                   
-        }
-        protected void Tick()
-        {
-            if(_AnimationFrame!= 0 && State == MashingGameState.Ongoing)
-            {
-                _AnimationFrame++;
-                if(_AnimationFrame == 5 )
-                {
-                    _AnimationFrame = 0;
-                }
-            }
-        }
+        }      
         protected void IncrementCount()
         {
-            if (State == MashingGameState.Ongoing)
+            if (State == MashingGameState.Ongoing)                        
             {
                 currentCount++;
                 _ClientCount++;
                 _AnimationFrame = 1;
-                Update();
-
             }
         }
         protected void StartGame()
@@ -144,8 +147,6 @@ namespace BlazorTestProject.Components.Pages
             }
             State = MashingGameState.Starting;
             ElapsedSeconds = 0;
-            Secondtimer.Stop();
-            Secondtimer.Start();
             Update();
             
         }
@@ -155,15 +156,9 @@ namespace BlazorTestProject.Components.Pages
             {
                 if (Clients[i]!= null)
                 {
-                    Clients[i].Tick();
                     Clients[i].InvokeAsync(Clients[i].StateHasChanged);                   
                 }                
             }
-        }
-        protected void FetchUser()
-        {
-            UserRepository a = new UserRepository();
-            _User = a.GetByASPID(_ClientName);
         }
         void IDisposable.Dispose()
         {

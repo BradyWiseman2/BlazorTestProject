@@ -78,21 +78,6 @@
 }
 
 @code {
-    protected async override Task OnInitializedAsync() //A little bit of Stack Overflow code to fetch the ID from the aspnet code
-    {
-        var authstate = await GetAuthenticationStateAsync.GetAuthenticationStateAsync();
-        var user = authstate.User;
-        var bruh = UserManager.GetUserId(user);
-        _ClientName = bruh;
-    }
-    protected override Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (firstRender)
-        {
-            FetchUser();
-            Update();
-        }
-        return base.OnAfterRenderAsync(firstRender);
-    }    
+        
    
 }
