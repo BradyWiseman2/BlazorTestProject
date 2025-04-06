@@ -10,7 +10,9 @@
 @attribute [Authorize]
 <style>
     body{
-        background-image: url('Resources/General/GhostBackground.png')
+        background-image: url('Resources/General/GhostBackground.png');
+        color: white;
+        
     }
     .AnimatedCharacter{
         width: 32px;
@@ -22,7 +24,7 @@
     }
 </style>
 <body>
-    <div class="AnimatedCharacter"><img src="Resources/General/Toads/Red.png" class="Player" alt="Player1"></div>   
+    
 </body>
 @switch (ActiveGameCode)
 {
@@ -30,7 +32,7 @@
         <Counter @ref=ActiveGame></Counter>
         break;
     case GamesList.Trivia:
-        <TriviaGame @ref=ActiveGame></TriviaGame>
+        <TriviaGame @ref=ActiveGame GameUser=@ClientUser></TriviaGame>
         break;
 }
 

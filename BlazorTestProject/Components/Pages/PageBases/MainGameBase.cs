@@ -31,7 +31,7 @@ namespace BlazorTestProject.Components.Pages.PageBases
         public MainGameBase()
         {
             UsersList.Add(this);
-            ActiveGameCode = GamesList.Mashing;
+            ActiveGameCode = GamesList.Trivia;
         }
 
         private static void Updatetimer_Elapsed(object? sender, System.Timers.ElapsedEventArgs e)
@@ -46,13 +46,8 @@ namespace BlazorTestProject.Components.Pages.PageBases
                         UsersList[i].ActiveGame.UpdateGame((int)Updatetimer.Interval);
                     }
                 }
-            }
-            testint += (int)Updatetimer.Interval;
-            if(testint > 5000)
-            {
-                testint = 0;                              
-                ActiveGameCode = GamesList.Trivia;
-            }
+            }            
+            
             Update();
         }
         protected static void Update()
@@ -74,5 +69,6 @@ namespace BlazorTestProject.Components.Pages.PageBases
             UserRepository a = new UserRepository();
             ClientUser = a.GetByASPID(UserName);
         }
+        
     }
 }

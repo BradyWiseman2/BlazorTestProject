@@ -171,6 +171,7 @@ namespace BlazorTestProject.Components.Pages
             {
                 currentCount = 0;
                 ElapsedSeconds = 0;
+                State = MashingGameState.Ended;
             }
             Update();
         }
