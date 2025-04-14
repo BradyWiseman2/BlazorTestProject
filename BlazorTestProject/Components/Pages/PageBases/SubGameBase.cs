@@ -14,5 +14,9 @@ namespace BlazorTestProject.Components.Pages.PageBases
         {
 
         }
+        public virtual void SendResults()
+        {
+
+        }
     }
 }

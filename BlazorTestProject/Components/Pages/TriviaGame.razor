@@ -7,60 +7,92 @@
 @inject UserManager<ApplicationUser> UserManager
 <style>
     body {
-        background-image: url('Resources/General/GhostBackground.png');
-        color: white;
+    background-image: url('Resources/General/GhostBackground.png');
+    color: white;
     }
 
     .AnimatedCharacter {
-        width: 48px;
-        height: 48px;
-        overflow: hidden;
-        margin-left: auto;
-        margin-right: auto;
-        zoom: 3;
-        display: inline-block;
-        align-items: center;
-        text-align: center;
-        margin-bottom: -3px;
+    width: 48px;
+    height: 48px;
+    overflow: hidden;
+    margin-left: auto;
+    margin-right: auto;
+    zoom: 2;
+    display: inline-block;
+    align-items: center;
+    text-align: center;
+    margin-bottom: -3px;
     }
     .Player {
-        margin-left: auto;
-        margin-right: auto;
-        zoom: 1.5;       
-        display: inline-block;
-        align-items: center;
-        text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    zoom: 1.5;       
+    display: inline-block;
+    align-items: center;
+    text-align: center;
     }
     .Players{
-        margin-top:20%;
-        align-items: center;
-        text-align: center;
+    margin-top:20%;
+    align-items: center;
+    text-align: center;
     }
     .Platform{
-        margin-top:0%;
-        width: 70%;
-        margin-left: 15%;
-        margin-right: 15%;
-        display: inline-block;
+    margin-top:0%;
+    width: 70%;
+    margin-left: 15%;
+    margin-right: 15%;
+    display: inline-block;
     }
     .Logo{       
-        width:100%;
-        color:aqua;
+    width:100%;
+    color:aqua; 
     }
     .LogoImg{        
-        width: 30%;
-        display: inline-block;
-        margin-left: auto;
-        margin-right: auto;
+    width: 30%;
+    display: inline-block;
+    margin-left: auto;
+    margin-right: auto;
+    }
+    .FullPlayer{
+    margin-left: auto;
+    margin-right: auto;
+    display: inline-block;
+    align-items: center;
+    text-align: center;
+    }
+    .PlayerName{
+        font-size: 20px;        
     }
 </style>
 <div class="Logo"><img src="Resources/General/TriviaMarioPartyLogo.png" class="LogoImg" alt="Trivia Mario Party"></div>
+@if(State == TriviaGameState.Title)
+{
+    <button class="btn btn-primary" @onclick="StartGame">Start Game</button>
+}
+@if(State == TriviaGameState.ReadingQuestion || State == TriviaGameState.AnsweringQuestion)
+{
+    if(ActiveTriviaQuestion!= null) //Epic nested if statement bro
+    {
+        <p class="TriviaQuestion">@ActiveTriviaQuestion.Question</p>
+    }
+    
+}
+@if (State == TriviaGameState.AnsweringQuestion)
+{
+    <button class="btn btn-primary" @onclick="() =>SetTriviaAnswer(0)">@QuestionText[0]</button>
+    <button class="btn btn-primary" @onclick="() =>SetTriviaAnswer(1)">@QuestionText[1]</button>
+    <button class="btn btn-primary" @onclick="() =>SetTriviaAnswer(2)">@QuestionText[2]</button>
+    <button class="btn btn-primary" @onclick="() =>SetTriviaAnswer(3)">@QuestionText[3]</button>
+}
 <div class="Players">
     @if(GameUser != null)
     {
         for (int i = 0; i < MainGameBase.UsersList.Count; i++)
         {
+            <div class="FullPlayer">
+                <p class="PlayerName" style="color:@MainGameBase.UsersList[i].TextColor">@MainGameBase.UsersList[i].DisplayName</p>
             <div class="AnimatedCharacter"><img src="Resources/General/Toads/Red.png" class="Player" alt="Player1"></div>
+            </div>
         }
         <img src="Resources/General/DefaultPlatform.png" class="Platform" alt="Platform">
     }

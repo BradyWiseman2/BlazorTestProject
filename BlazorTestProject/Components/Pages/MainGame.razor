@@ -12,7 +12,7 @@
     body{
         background-image: url('Resources/General/GhostBackground.png');
         color: white;
-        
+
     }
     .AnimatedCharacter{
         width: 32px;
@@ -24,7 +24,7 @@
     }
 </style>
 <body>
-    
+
 </body>
 @switch (ActiveGameCode)
 {
@@ -33,6 +33,9 @@
         break;
     case GamesList.Trivia:
         <TriviaGame @ref=ActiveGame GameUser=@ClientUser></TriviaGame>
+        break;
+    case GamesList.Wheel:
+        <WheelOfMisfortune @ref=ActiveGame GameUser=@ClientUser></WheelOfMisfortune>
         break;
 }
 

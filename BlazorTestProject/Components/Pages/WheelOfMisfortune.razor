@@ -1,0 +1,95 @@
+﻿@inherits WheelOfMisfortuneBase
+@using BlazorTestProject.Components.Pages.PageBases
+@using Microsoft.AspNetCore.Identity
+@using BlazorTestProject.Data
+@using Microsoft.AspNetCore.Authorization
+@inject AuthenticationStateProvider GetAuthenticationStateAsync
+@inject UserManager<ApplicationUser> UserManager
+<style>
+    body {
+        background-image: url('Resources/General/GhostBackground.png');
+        color: white;
+    }
+
+    .AnimatedCharacter {
+        width: 48px;
+        height: 48px;
+        overflow: hidden;
+        margin-left: auto;
+        margin-right: auto;
+        zoom: 2;
+        display: inline-block;
+        align-items: center;
+        text-align: center;
+        margin-bottom: -3px;
+    }
+
+    .Player {
+        margin-left: auto;
+        margin-right: auto;
+        zoom: 1.5;
+        display: inline-block;
+        align-items: center;
+        text-align: center;
+    }
+
+    .Players {
+        margin-top: 20%;
+        align-items: center;
+        text-align: center;
+    }
+
+    .Platform {
+        margin-top: 0%;
+        width: 70%;
+        margin-left: 15%;
+        margin-right: 15%;
+        display: inline-block;
+    }
+
+    .Logo {
+        width: 100%;
+        color: aqua;
+    }
+
+    .LogoImg {
+        width: 30%;
+        display: inline-block;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .FullPlayer {
+        margin-left: auto;
+        margin-right: auto;
+        display: inline-block;
+        align-items: center;
+        text-align: center;
+    }
+
+    .PlayerName {
+        font-size: 20px;
+    }
+    .Wheel{
+        transform: rotate(@WheelRotationCSS);
+    }
+</style>
+<div class="Logo"><img src="Resources/General/TriviaMarioPartyLogo.png" class="LogoImg" alt="WheelOfMisfortune"></div>
+<div class="WheelDiv"><img src="Resources/WheelOfMisfortune/Wheel.png" class="Wheel" alt="WheelOfMisfortune"></div>
+<div class="Players">
+    @if (GameUser != null)
+    {
+        for (int i = 0; i < MainGameBase.UsersList.Count; i++)
+        {
+            <div class="FullPlayer">
+                <p class="PlayerName" style="color:@MainGameBase.UsersList[i].TextColor">@MainGameBase.UsersList[i].DisplayName</p>
+                <div class="AnimatedCharacter"><img src="Resources/General/Toads/Red.png" class="Player" alt="Player1"></div>
+            </div>
+        }
+        <img src="Resources/General/DefaultPlatform.png" class="Platform" alt="Platform">
+    }
+
+</div>
+@code {
+
+}
